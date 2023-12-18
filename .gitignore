@@ -3,5 +3,5 @@
 __pycache__/
 output/
 notes/
-screenshots/
+screenshots*/
 .env

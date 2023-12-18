@@ -11,15 +11,8 @@
         width: 100%;
       }
       #streetview {
-        height: 75vh;
-        width: 65vw;
-      }
-      #other-panos {
-        margin-left: 25px;
-        overflow-y: scroll;
-      }
-      #btn-screenshot {
-        margin-top: 20px;
+        height: 100vh;
+        width: 99vw;
       }
     </style>
   </head>
@@ -35,12 +28,12 @@
     </div>
 
     <div id="test-screenshots-container"></div>
-    <div id="initial-position-pano"></div>
+    <div id="initial-pano"></div>
     <div id="current-date"></div>
-    <div id="other-dates"></div>
+    <div id="other-panos"></div>
 
     <script>
-      // Hack to augment to set preserveDrawingBuffer=true to the WebGL context
+      // Hack to set preserveDrawingBuffer=true on the WebGL context
       // This is done so we can take a screenshot with html2canvas 
       // https://stackoverflow.com/questions/26783586/canvas-todataurl-returns-blank-image
       HTMLCanvasElement.prototype.getContext = function(origFn) {

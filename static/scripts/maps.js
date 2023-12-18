@@ -4,13 +4,12 @@ const mapsData = document.currentScript.dataset;
 (async function initMap() {
   const { StreetViewService } = await google.maps.importLibrary("streetView");
   const svService = new StreetViewService();
-  console.debug(mapsData);
 
   let coordinates = { 
     lat: parseFloat(mapsData.lat),
     lng: parseFloat(mapsData.lng),
   };
-  window.coordinates = coordinates;
+  window.coordinates = coordinates; // Used to readjust the heading
 
   let panoRequest = {
     location: coordinates,
@@ -49,18 +48,17 @@ async function findPanorama(svService, panoRequest, coordinates) {
   const { StreetViewStatus, StreetViewPanorama } = await google.maps.importLibrary("streetView");
 
   // Send a request to the panorama service
-  svService.getPanorama(panoRequest, function(panoData, status) {
+  svService.getPanorama(panoRequest, (panoData, status) => {
     if (status === StreetViewStatus.OK) 
     {
       console.debug(`Status ${status}: panorama found.`);
+      console.debug(JSON.stringify(panoData, null, 2));
       
-      const heading = spherical.computeHeading(panoData.location.latLng, coordinates);
       const panoId = panoData.location.pano;
       const panoDate = getPanoDate(panoData.imageDate);
       const otherPanos = getOtherPanosWithDates(panoData.time);
+      const heading = spherical.computeHeading(panoData.location.latLng, coordinates);
 
-      console.debug(otherPanos);
-      
       const sv = new StreetViewPanorama(
         document.getElementById('streetview'),
         {
@@ -75,17 +73,16 @@ async function findPanorama(svService, panoRequest, coordinates) {
       );
       sv.setPano(panoId);
       
-      // Save a reference to the streetview for easy access
+      // Save these in window for easy access later
       window.sv = sv;
-      // document.getElementById('first-pano-id').innerText = panoId;
-      // document.getElementById('first-pano-date').innerText = panoDate;
-      document.getElementById('initial-position-pano').innerText = panoId;
+      window.computeHeading = spherical.computeHeading;
+      // Store these in the document for the client to access
+      document.getElementById('initial-pano').innerText = panoId;
       document.getElementById('current-date').innerText = panoDate
-      document.getElementById('other-dates').innerText = JSON.stringify(otherPanos);
+      document.getElementById('other-panos').innerText = JSON.stringify(otherPanos);
     }
     else {
-      var radius = panoRequest.radius
-      //Handle other statuses here
+      const radius = panoRequest.radius
       if (radius >= 100) {
         console.log(`Status ${status}: Could not find panorama within ${radius}m! Giving up.`);
         alert('ERROR');

@@ -15,23 +15,17 @@ async function screenshot(element_id) {
             },
         }
     ).then(canvas => {
-        // // Uncomment for testing - appends the images to the page
-        // document.body.style.overflowY = 'scroll';
-        // document.body.style.height = '100%';
-        // document.getElementById('test-screenshots-container').appendChild(canvas);
-
         // Convert the image to a dataURL to send to backend
         // Can also convert to image/png but heavier
         return canvas.toDataURL('image/jpeg');
-
     })
 }
 
 /*
 * Screenshot only the streetview. Called when the screenshot button is clicked.
 */
-async function screenshotStreetview(event) {
-    event.preventDefault();
+async function screenshotStreetview(e) {
+    e.preventDefault();
     
     const postData = {
         id: dataset.id,
@@ -39,8 +33,6 @@ async function screenshotStreetview(event) {
         date: document.getElementById('current-date').innerText, 
         img: await screenshot('streetview'),
     }
-    console.log(postData);
-
     fetch("/upload", {
         method: "POST",
         mode: "same-origin", 
@@ -50,21 +42,13 @@ async function screenshotStreetview(event) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),
-    }).then(() => {
-        alert('OK');
-    })
+    }).then(() => alert('OK'))
 }
 
-function setUpButtons() {
-    // Screenshot functionality
+document.addEventListener("DOMContentLoaded", () => { 
     const screenshotButton = document.getElementById('btn-screenshot');
     screenshotButton.addEventListener('click', (e) => {
         screenshotStreetview(e);
     });
-}
-
-
-document.addEventListener("DOMContentLoaded", () => { 
-    setUpButtons();
 });
 
