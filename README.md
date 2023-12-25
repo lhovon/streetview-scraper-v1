@@ -10,6 +10,7 @@ Features:
 - Automatically get multiple angles and different time periods for a location.
 - Arbitrarily sized images without watermarks.
   
+Note: You will need a [Google Maps API key](https://developers.google.com/maps/documentation/javascript/cloud-setup).
 
 Check the blog post for a full breakdown: [https://loichovon.com/posts/streetview-scraper.html](https://loichovon.com/posts/streetview-scraper.html)
 
@@ -30,6 +31,13 @@ cp .env.example .env
 
 
 ## Usage
+
+First start the server:
+```sh
+flask --app server.py run
+```
+
+Then launch the client to start scraping.
 
 ```sh
 usage: client.py [-h] [-n NUM_WORKERS] [-b] [coords ...]
