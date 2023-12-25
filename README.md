@@ -1,12 +1,17 @@
-# Scrape better and cheaper Street View images from the JS API
+# Streetview Scraper: better and cheaper Street View images from the JS API
 
-Program to scrape Street View images through the Maps JS API.
+## UPDATE: Version 2
+
+For an even cheaper version, see version 2: [https://github.com/lhovon/streetview-scraper-v2] (https://github.com/lhovon/streetview-scraper-v2)
+
+## Result
 
 ![Comparison with results using the Street View Static API](assets/comparison.jpg)
 
 
 Features:
 - Cheap scraping of Street View images (0.014 USD per location - theoretically lowerable to 0.014 USD for any number of locations if you extend this).
+- Launch multiple parallel workers.
 - Automatically get multiple angles and different time periods for a location.
 - Arbitrarily sized images without watermarks.
   
